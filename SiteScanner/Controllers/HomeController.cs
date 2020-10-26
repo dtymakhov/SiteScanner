@@ -8,11 +8,11 @@ namespace SiteScanner.Controllers
 {
     public class HomeController : Controller
     {
-        private SiteScannerService siteScannerService;
+        private SiteScannerService _siteScannerService;
 
         public HomeController()
         {
-            siteScannerService = new SiteScannerService();
+            _siteScannerService = new SiteScannerService();
         }
 
         public ActionResult Index()
@@ -23,7 +23,7 @@ namespace SiteScanner.Controllers
         [HttpPost]
         public ActionResult<List<Page>> Result(string url)
         {
-            var result = siteScannerService.Scan(url);
+            var result = _siteScannerService.Scan(url);
             return View(result);
         }
     }

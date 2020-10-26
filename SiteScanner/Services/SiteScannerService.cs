@@ -8,27 +8,27 @@ namespace SiteScanner.Services
 {
     public class SiteScannerService
     {
-        private int maxLinksCount;
-        private string host;
-        private HashSet<string> urls;
-        private Queue<string> queueUrls;
+        private int _maxLinksCount;
+        private string _host;
+        private HashSet<string> _urls;
+        private Queue<string> _queueUrls;
         
         public SiteScannerService()
         {
-            maxLinksCount = 5;
-            urls = new HashSet<string>();
-            queueUrls = new Queue<string>();
+            _maxLinksCount = 5;
+            _urls = new HashSet<string>();
+            _queueUrls = new Queue<string>();
         }
         
         public List<Page> Scan(string host)
         {
             var pages = new List<Page>();
-            this.host = host;
+            this._host = host;
             GetUrlPerformance(host);
 
-            while (queueUrls.Count != 0)
+            while (_queueUrls.Count != 0)
             {
-                var url = queueUrls.Dequeue();
+                var url = _queueUrls.Dequeue();
                 var urlPerformance = (int) GetUrlPerformance(url);
                 pages.Add(new Page {Url = url, ResponseTime = urlPerformance});
             }
@@ -54,7 +54,7 @@ namespace SiteScanner.Services
             if (url.Contains("?"))
                 return url.Substring(0, url.IndexOf('?'));
             if (url.StartsWith('/'))
-                return host + url;
+                return _host + url;
             return url;
         }
 
@@ -65,7 +65,7 @@ namespace SiteScanner.Services
             if (nodes == null) return;
             foreach (var node in nodes)
             {
-                if (urls.Count == maxLinksCount) return;
+                if (_urls.Count == _maxLinksCount) return;
                 
                 var href = node.GetAttributeValue("href", null);
 
@@ -73,10 +73,10 @@ namespace SiteScanner.Services
 
                 href = CorrectUrl(href);
 
-                if (urls.Contains(href) || !href.Contains(host)) continue;
+                if (_urls.Contains(href) || !href.Contains(_host)) continue;
 
-                urls.Add(href);
-                queueUrls.Enqueue(href);
+                _urls.Add(href);
+                _queueUrls.Enqueue(href);
             }
         }
     }
