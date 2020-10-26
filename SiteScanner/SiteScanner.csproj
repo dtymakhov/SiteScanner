@@ -5,11 +5,16 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="EntityFramework" Version="6.4.4" />
       <PackageReference Include="HtmlAgilityPack" Version="1.11.25" />
     </ItemGroup>
 
     <ItemGroup>
       <_ContentIncludedByDefault Remove="wwwroot\index.html" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\SiteScanner.DAL\SiteScanner.DAL.csproj" />
     </ItemGroup>
 
 </Project>
