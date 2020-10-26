@@ -1,8 +1,10 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using SiteScanner.Models;
+using SiteScanner.DAL.Interfaces;
+using SiteScanner.DAL.Models;
 using SiteScanner.Services;
+using Page = SiteScanner.Models.Page;
 
 namespace SiteScanner.Controllers
 {

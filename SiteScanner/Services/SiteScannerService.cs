@@ -23,7 +23,7 @@ namespace SiteScanner.Services
         public List<Page> Scan(string host)
         {
             var pages = new List<Page>();
-            this._host = host;
+            _host = host;
             GetUrlPerformance(host);
 
             while (_queueUrls.Count != 0)
@@ -32,7 +32,7 @@ namespace SiteScanner.Services
                 var urlPerformance = (int) GetUrlPerformance(url);
                 pages.Add(new Page {Url = url, ResponseTime = urlPerformance});
             }
-
+        
             return pages;
         }
 
