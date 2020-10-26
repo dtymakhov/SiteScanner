@@ -1,0 +1,30 @@
+@model System.Collections.Generic.List<SiteScanner.Models.Page>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <title>title</title>
+</head>
+<body>
+<div>
+    <table>
+        <tr>
+            <th>Url</th>
+            <th>Response time</th>
+        </tr>
+        @foreach (var p in Model)
+        {
+            <tr>
+                <td>@p.Url</td>
+                <td>@p.ResponseTime</td>
+            </tr>
+        }
+    </table>
+</div>
+</body>
+</html>

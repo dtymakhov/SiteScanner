@@ -15,7 +15,7 @@ namespace SiteScanner.Services
         
         public SiteScannerService()
         {
-            maxLinksCount = 99;
+            maxLinksCount = 5;
             urls = new HashSet<string>();
             queueUrls = new Queue<string>();
         }
@@ -65,6 +65,8 @@ namespace SiteScanner.Services
             if (nodes == null) return;
             foreach (var node in nodes)
             {
+                if (urls.Count == maxLinksCount) return;
+                
                 var href = node.GetAttributeValue("href", null);
 
                 if (href == null) continue;
