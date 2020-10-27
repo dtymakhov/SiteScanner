@@ -8,9 +8,9 @@ namespace SiteScanner.Services
 {
     public class MainService
     {
-        private ISiteRepository _siteRepository;
-        private IPageRepository _pageRepository;
-        private SiteScannerService _siteScannerService;
+        private readonly ISiteRepository _siteRepository;
+        private readonly IPageRepository _pageRepository;
+        private readonly SiteScannerService _siteScannerService;
 
         public MainService(ISiteRepository siteRepository, IPageRepository pageRepository)
         {
@@ -98,6 +98,13 @@ namespace SiteScanner.Services
                 ResponseTime = history.ResponseTime,
                 Date = history.Date
             }).ToList();
+        }
+
+        public bool IsSiteAdded(string url)
+        {
+            var siteByUrl = _siteRepository.GetSiteByUrl(url);
+            
+            return siteByUrl != null;
         }
     }
 }

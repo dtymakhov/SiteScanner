@@ -11,6 +11,8 @@
     <title>title</title>
 </head>
 <body>
+
+<div id="chart_div"></div>
 <div>
     <table>
         <tr>
@@ -23,12 +25,38 @@
         {
             <tr>
                 <td>@p.Url</td>
-                <td>@p.ResponseTime</td>
-                <td>@p.MaxResponseTime</td>
-                <td>@p.MinResponseTime</td>
+                <td>@p.ResponseTime ms</td>
+                <td>@p.MaxResponseTime ms</td>
+                <td>@p.MinResponseTime ms</td>
             </tr>
         }
     </table>
 </div>
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="application/javascript">
+    google.charts.load('current', {packages: ['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+    
+    function drawChart(){
+        var data = new google.visualization.arrayToDataTable([
+        ['Url', 'Response Time (ms)'],
+           @foreach (var data in Model)
+           {
+               <text>['@data.Url', @data.ResponseTime],</text>
+           }
+           ]);
+     
+           // Set chart options
+           var options = {
+               width:1000,
+               height:500};
+     
+           // Instantiate and draw our chart, passing in some options.
+           var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+           chart.draw(data, options);         
+        }
+    </script>
+
 </body>
 </html>
