@@ -88,13 +88,13 @@ namespace SiteScanner.Services
             return resultPages;
         }
 
-        public List<HistoryViewModel> GetHistory(string url)
+        public List<PageViewModel> GetHistory(string url)
         {
             var histories = _siteRepository.GetHistory(url);
 
-            return histories.Select(history => new HistoryViewModel
+            return histories.Select(history => new PageViewModel
             {
-                PageUrl = history.Page.Url,
+                Url = history.Page.Url,
                 ResponseTime = history.ResponseTime,
                 Date = history.Date
             }).ToList();

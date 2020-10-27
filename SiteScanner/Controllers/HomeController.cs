@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using SiteScanner.DAL.Interfaces;
 using SiteScanner.Services;
@@ -23,14 +24,25 @@ namespace SiteScanner.Controllers
         [HttpPost]
         public ActionResult<IEnumerable<PageViewModel>> Result(string url)
         {
-            var result = _mainService.GetResult(url);
+            var correctedUrl = SiteCheckerService.CorrectHost(url);
+            if (!SiteCheckerService.IsWebSiteOnline(correctedUrl))
+            {
+                return Content("Please enter a correct url");
+            }
+
+            var result = _mainService.GetResult(correctedUrl)
+                .OrderByDescending(r => r.ResponseTime);
+            
             return View(result);
         }
 
         [HttpPost]
-        public ActionResult<IEnumerable<HistoryViewModel>> History(string url)
+        public ActionResult<IEnumerable<PageViewModel>> History(string url)
         {
-            var history = _mainService.GetHistory(url);
+            
+            var correctedUrl = SiteCheckerService.CorrectHost(url);
+            
+            var history = _mainService.GetHistory(correctedUrl);
             return View(history);
         }
     }

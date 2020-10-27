@@ -12,19 +12,19 @@ namespace SiteScanner.Services
         private string _host;
         private readonly HashSet<string> _urls;
         private readonly Queue<string> _queueUrls;
-        
+
         public SiteScannerService()
         {
             _maxLinksCount = 5;
             _urls = new HashSet<string>();
             _queueUrls = new Queue<string>();
         }
-        
+
         public List<PageViewModel> Scan(string host)
         {
             var pages = new List<PageViewModel>();
             _host = host;
-            GetUrlPerformance(host);
+            GetUrlPerformance(_host);
 
             while (_queueUrls.Count != 0)
             {
@@ -32,7 +32,7 @@ namespace SiteScanner.Services
                 var urlPerformance = (int) GetUrlPerformance(url);
                 pages.Add(new PageViewModel {Url = url, ResponseTime = urlPerformance, Date = DateTime.Now});
             }
-        
+
             return pages;
         }
 
@@ -54,7 +54,8 @@ namespace SiteScanner.Services
             if (url.Contains("?"))
                 return url.Substring(0, url.IndexOf('?'));
             if (url.StartsWith('/'))
-                return _host + url;
+                return _host + url.Remove(0, 1);
+            
             return url;
         }
 
@@ -66,7 +67,7 @@ namespace SiteScanner.Services
             foreach (var node in nodes)
             {
                 if (_urls.Count == _maxLinksCount) return;
-                
+
                 var href = node.GetAttributeValue("href", null);
 
                 if (href == null) continue;

@@ -1,4 +1,4 @@
-@model System.Collections.Generic.IEnumerable<SiteScanner.ViewModels.HistoryViewModel>
+@model System.Collections.Generic.IEnumerable<SiteScanner.ViewModels.PageViewModel>
 
 @{
     Layout = null;
@@ -21,7 +21,7 @@
         @foreach (var p in Model)
         {
             <tr>
-                <td>@p.PageUrl</td>
+                <td>@p.Url</td>
                 <td>@p.ResponseTime</td>
                 <td>@p.Date</td>
             </tr>
