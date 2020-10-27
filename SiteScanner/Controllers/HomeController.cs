@@ -36,14 +36,14 @@ namespace SiteScanner.Controllers
         }
 
         [HttpPost]
-        public ActionResult<IEnumerable<PageViewModel>> History(string url)
+        public ActionResult<IEnumerable<IGrouping<string,PageViewModel>>> History(string url)
         {
             var correctedUrl = SiteCheckerService.CorrectHost(url);
 
             if (!_mainService.IsSiteAdded(correctedUrl))
                 return View();
             
-            var history = _mainService.GetHistory(correctedUrl);
+            var history = _mainService.GetHistory(correctedUrl).GroupBy(p => p.Url);
             return View(history);
 
         }

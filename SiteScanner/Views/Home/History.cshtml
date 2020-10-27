@@ -1,4 +1,4 @@
-@model IEnumerable<PageViewModel>
+@model IEnumerable<IGrouping<string, PageViewModel>>
 
 @if (Model == null)
 {
@@ -10,18 +10,20 @@ else
         <table class="table table-hover table-dark">
             <thead>
             <tr>
-                <th scope="col">Url</th>
-                <th scope="col">Response time</th>
                 <th scope="col">Date</th>
+                <th scope="col">Response time</th>
             </tr>
             </thead>
-            @foreach (var p in Model)
+            @foreach (var grouping in Model)
             {
-                <tr>
-                    <td>@p.Url</td>
-                    <td>@p.ResponseTime</td>
-                    <td>@p.Date</td>
-                </tr>
+                <td colspan="2" class="table-dark">@grouping.Key</td>
+                @foreach (var g in grouping)
+                {
+                    <tr>
+                        <td>@g.Date.</td>
+                        <td>@g.ResponseTime ms</td>
+                    </tr>
+                }
             }
         </table>
     </div>
