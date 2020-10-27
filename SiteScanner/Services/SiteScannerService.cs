@@ -15,7 +15,7 @@ namespace SiteScanner.Services
 
         public SiteScannerService()
         {
-            _maxLinksCount = 5;
+            _maxLinksCount = 50;
             _urls = new HashSet<string>();
             _queueUrls = new Queue<string>();
         }
