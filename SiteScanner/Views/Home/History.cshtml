@@ -1,0 +1,32 @@
+@model System.Collections.Generic.IEnumerable<SiteScanner.ViewModels.HistoryViewModel>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <title></title>
+</head>
+<body>
+<div>
+    <table>
+        <tr>
+            <th>Url</th>
+            <th>Response time</th>
+            <th>Date</th>
+        </tr>
+        @foreach (var p in Model)
+        {
+            <tr>
+                <td>@p.PageUrl</td>
+                <td>@p.ResponseTime</td>
+                <td>@p.Date</td>
+            </tr>
+        }
+    </table>
+</div>
+</body>
+</html>

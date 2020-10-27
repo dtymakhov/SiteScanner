@@ -8,12 +8,10 @@ namespace SiteScanner.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly SiteScannerService _siteScannerService;
         private readonly MainService _mainService;
 
         public HomeController(ISiteRepository siteRepository, IPageRepository pageRepository)
         {
-            _siteScannerService = new SiteScannerService();
             _mainService = new MainService(siteRepository, pageRepository);
         }
 
@@ -27,6 +25,13 @@ namespace SiteScanner.Controllers
         {
             var result = _mainService.GetResult(url);
             return View(result);
+        }
+
+        [HttpPost]
+        public ActionResult<IEnumerable<HistoryViewModel>> History(string url)
+        {
+            var history = _mainService.GetHistory(url);
+            return View(history);
         }
     }
 }

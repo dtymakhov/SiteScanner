@@ -25,7 +25,7 @@ namespace SiteScanner.Services
 
             var result = _siteScannerService.Scan(url);
 
-            return siteByUrl != null ? UpdateSite(siteByUrl, result) : AddSite(result);
+            return siteByUrl != null ? UpdateSite(result) : AddSite(result);
         }
 
         private List<ResultPageViewModel> AddSite(List<PageViewModel> pageViewModel)
@@ -60,7 +60,7 @@ namespace SiteScanner.Services
             return resultPages;
         }
 
-        private List<ResultPageViewModel> UpdateSite(Site site, IEnumerable<PageViewModel> pageViewModel)
+        private List<ResultPageViewModel> UpdateSite(IEnumerable<PageViewModel> pageViewModel)
         {
             var resultPages = new List<ResultPageViewModel>();
 
@@ -86,6 +86,18 @@ namespace SiteScanner.Services
             }
 
             return resultPages;
+        }
+
+        public List<HistoryViewModel> GetHistory(string url)
+        {
+            var histories = _siteRepository.GetHistory(url);
+
+            return histories.Select(history => new HistoryViewModel
+            {
+                PageUrl = history.Page.Url,
+                ResponseTime = history.ResponseTime,
+                Date = history.Date
+            }).ToList();
         }
     }
 }
