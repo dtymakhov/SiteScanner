@@ -67,7 +67,8 @@ namespace SiteScanner.Services
             foreach (var p in pageViewModel)
             {
                 var page = _pageRepository.GetPage(p.Url);
-
+                page.Histories.Add(new History {ResponseTime = p.ResponseTime, Date = p.Date});
+                
                 if (page.MaxResponseTime < p.ResponseTime)
                     page.MaxResponseTime = p.ResponseTime;
 

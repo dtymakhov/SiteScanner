@@ -26,7 +26,7 @@ namespace SiteScanner.Controllers
         {
             var correctedUrl = SiteCheckerService.CorrectHost(url);
             if (!SiteCheckerService.IsWebSiteOnline(correctedUrl))
-                return Content("Please enter a correct url");
+                return View();
             
 
             var result = _mainService.GetResult(correctedUrl)
@@ -40,8 +40,8 @@ namespace SiteScanner.Controllers
         {
             var correctedUrl = SiteCheckerService.CorrectHost(url);
 
-            if (!_mainService.IsSiteAdded(correctedUrl)) 
-                return Content("This site has never been checked");
+            if (!_mainService.IsSiteAdded(correctedUrl))
+                return View();
             
             var history = _mainService.GetHistory(correctedUrl);
             return View(history);

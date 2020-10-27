@@ -1,26 +1,21 @@
-@model System.Collections.Generic.IEnumerable<SiteScanner.ViewModels.ResultPageViewModel>
+@model IEnumerable<ResultPageViewModel>
 
-@{
-    Layout = null;
+@if (Model == null)
+{
+    <div class="alert alert-danger" role="alert">Please enter a correct url</div>
 }
-
-<!DOCTYPE html>
-
-<html lang="en">
-<head>
-    <title>title</title>
-</head>
-<body>
-
-<div id="chart_div"></div>
-<div>
-    <table>
+else
+{
+    <div id="chart_div"></div>
+    <table class="table table-hover table-dark">
+        <thead>
         <tr>
-            <th>Url</th>
-            <th>Response time</th>
-            <th>Max response time</th>
-            <th>Min response time</th>
+            <th scope="col">Url</th>
+            <th scope="col">Response time</th>
+            <th scope="col">Max response time</th>
+            <th scope="col">Min response time</th>
         </tr>
+        </thead>
         @foreach (var p in Model)
         {
             <tr>
@@ -31,10 +26,9 @@
             </tr>
         }
     </table>
-</div>
 
-<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-<script type="application/javascript">
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="application/javascript">
     google.charts.load('current', {packages: ['corechart']});
     google.charts.setOnLoadCallback(drawChart);
     
@@ -57,6 +51,4 @@
            chart.draw(data, options);         
         }
     </script>
-
-</body>
-</html>
+}
