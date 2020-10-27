@@ -9,6 +9,7 @@ namespace SiteScanner.DAL.Models
         {
             Pages = new List<Page>();
         }
+        
         [Key]
         public int Id { get; set; }
         public string Url { get; set; }

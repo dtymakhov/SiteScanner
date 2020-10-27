@@ -9,7 +9,7 @@ namespace SiteScanner.DAL.Repositories
 {
     public class SiteRepository : ISiteRepository
     {
-        private ApplicationContext _applicationContext;
+        private readonly ApplicationContext _applicationContext;
 
         public SiteRepository(ApplicationContext applicationContext)
         {
@@ -23,7 +23,7 @@ namespace SiteScanner.DAL.Repositories
 
         public Site GetSiteByUrl(string url)
         {
-            return _applicationContext.Sites.FirstOrDefault(p => p.Url == url);;
+            return _applicationContext.Sites.FirstOrDefault(p => p.Url == url);
         }
 
         public IEnumerable<History> GetHistory(string url)

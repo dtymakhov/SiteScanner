@@ -7,7 +7,7 @@ namespace SiteScanner.DAL.Repositories
 {
     public class PageRepository : IPageRepository
     {
-        private ApplicationContext _applicationContext;
+        private readonly ApplicationContext _applicationContext;
 
         public PageRepository(ApplicationContext applicationContext)
         {

@@ -28,6 +28,25 @@ namespace SiteScanner.Services
             return siteByUrl != null ? UpdateSite(result) : AddSite(result);
         }
 
+        public List<PageViewModel> GetHistory(string url)
+        {
+            var histories = _siteRepository.GetHistory(url);
+
+            return histories.Select(history => new PageViewModel
+            {
+                Url = history.Page.Url,
+                ResponseTime = history.ResponseTime,
+                Date = history.Date
+            }).ToList();
+        }
+
+        public bool IsSiteAdded(string url)
+        {
+            var siteByUrl = _siteRepository.GetSiteByUrl(url);
+
+            return siteByUrl != null;
+        }
+
         private List<ResultPageViewModel> AddSite(List<PageViewModel> pageViewModel)
         {
             var site = new Site {Url = pageViewModel[0].Url};
@@ -68,7 +87,7 @@ namespace SiteScanner.Services
             {
                 var page = _pageRepository.GetPage(p.Url);
                 page.Histories.Add(new History {ResponseTime = p.ResponseTime, Date = p.Date});
-                
+
                 if (page.MaxResponseTime < p.ResponseTime)
                     page.MaxResponseTime = p.ResponseTime;
 
@@ -87,25 +106,6 @@ namespace SiteScanner.Services
             }
 
             return resultPages;
-        }
-
-        public List<PageViewModel> GetHistory(string url)
-        {
-            var histories = _siteRepository.GetHistory(url);
-
-            return histories.Select(history => new PageViewModel
-            {
-                Url = history.Page.Url,
-                ResponseTime = history.ResponseTime,
-                Date = history.Date
-            }).ToList();
-        }
-
-        public bool IsSiteAdded(string url)
-        {
-            var siteByUrl = _siteRepository.GetSiteByUrl(url);
-            
-            return siteByUrl != null;
         }
     }
 }
