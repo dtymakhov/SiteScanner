@@ -2,16 +2,16 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using HtmlAgilityPack;
-using SiteScanner.Models;
+using SiteScanner.ViewModels;
 
 namespace SiteScanner.Services
 {
     public class SiteScannerService
     {
-        private int _maxLinksCount;
+        private readonly int _maxLinksCount;
         private string _host;
-        private HashSet<string> _urls;
-        private Queue<string> _queueUrls;
+        private readonly HashSet<string> _urls;
+        private readonly Queue<string> _queueUrls;
         
         public SiteScannerService()
         {
@@ -20,9 +20,9 @@ namespace SiteScanner.Services
             _queueUrls = new Queue<string>();
         }
         
-        public List<Page> Scan(string host)
+        public List<PageViewModel> Scan(string host)
         {
-            var pages = new List<Page>();
+            var pages = new List<PageViewModel>();
             _host = host;
             GetUrlPerformance(host);
 
@@ -30,7 +30,7 @@ namespace SiteScanner.Services
             {
                 var url = _queueUrls.Dequeue();
                 var urlPerformance = (int) GetUrlPerformance(url);
-                pages.Add(new Page {Url = url, ResponseTime = urlPerformance});
+                pages.Add(new PageViewModel {Url = url, ResponseTime = urlPerformance, Date = DateTime.Now});
             }
         
             return pages;

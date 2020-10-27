@@ -22,5 +22,10 @@ namespace SiteScanner.DAL.Repositories
 
             _applicationContext.Pages.Update(updatedPage);
         }
+
+        public Page GetPage(string url)
+        {
+            return _applicationContext.Pages.FirstOrDefault(p => p.Url == url);
+        }
     }
 }

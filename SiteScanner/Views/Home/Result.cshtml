@@ -1,4 +1,4 @@
-@model System.Collections.Generic.List<SiteScanner.Models.Page>
+@model System.Collections.Generic.IEnumerable<SiteScanner.ViewModels.ResultPageViewModel>
 
 @{
     Layout = null;
@@ -16,12 +16,16 @@
         <tr>
             <th>Url</th>
             <th>Response time</th>
+            <th>Max response time</th>
+            <th>Min response time</th>
         </tr>
         @foreach (var p in Model)
         {
             <tr>
                 <td>@p.Url</td>
                 <td>@p.ResponseTime</td>
+                <td>@p.MaxResponseTime</td>
+                <td>@p.MinResponseTime</td>
             </tr>
         }
     </table>

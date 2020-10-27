@@ -23,7 +23,7 @@ namespace SiteScanner.DAL.Repositories
 
         public Site GetSiteByUrl(string url)
         {
-            return _applicationContext.Sites.FirstOrDefault(p => p.Url.Equals(url));
+            return _applicationContext.Sites.FirstOrDefault(p => p.Url == url);;
         }
 
         public IEnumerable<History> GetHistory(string url)
@@ -36,9 +36,9 @@ namespace SiteScanner.DAL.Repositories
                 .ToList();
         }
 
-        public void SaveChangesAsync()
+        public void SaveChanges()
         {
-            _applicationContext.SaveChangesAsync();
+            _applicationContext.SaveChanges();
         }
     }
 }

@@ -8,6 +8,6 @@ namespace SiteScanner.DAL.Interfaces
         void AddSite(Site site);
         Site GetSiteByUrl(string url);
         IEnumerable<History>  GetHistory(string url);
-        void SaveChangesAsync();
+        void SaveChanges();
     }
 }

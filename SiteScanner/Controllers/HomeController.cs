@@ -1,20 +1,20 @@
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using SiteScanner.DAL.Interfaces;
-using SiteScanner.DAL.Models;
 using SiteScanner.Services;
-using Page = SiteScanner.Models.Page;
+using SiteScanner.ViewModels;
 
 namespace SiteScanner.Controllers
 {
     public class HomeController : Controller
     {
-        private SiteScannerService _siteScannerService;
+        private readonly SiteScannerService _siteScannerService;
+        private readonly MainService _mainService;
 
-        public HomeController()
+        public HomeController(ISiteRepository siteRepository, IPageRepository pageRepository)
         {
             _siteScannerService = new SiteScannerService();
+            _mainService = new MainService(siteRepository, pageRepository);
         }
 
         public ActionResult Index()
@@ -23,9 +23,9 @@ namespace SiteScanner.Controllers
         }
 
         [HttpPost]
-        public ActionResult<List<Page>> Result(string url)
+        public ActionResult<IEnumerable<PageViewModel>> Result(string url)
         {
-            var result = _siteScannerService.Scan(url);
+            var result = _mainService.GetResult(url);
             return View(result);
         }
     }

@@ -21,7 +21,9 @@ namespace SiteScanner
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-            services.AddDbContext<ApplicationContext>(options => options.UseSqlServer
+            services.AddScoped<ISiteRepository, SiteRepository>();
+            services.AddScoped<IPageRepository, PageRepository>();
+            services.AddDbContext<ApplicationContext>(options => options.UseSqlite
                 (Configuration.GetConnectionString("SiteScannerConnection")));
             
         }

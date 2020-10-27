@@ -5,6 +5,10 @@ namespace SiteScanner.DAL.Models
 {
     public class Page
     {
+        public Page()
+        {
+            Histories = new List<History>();
+        }
         [Key]
         public int Id { get; set; }
         public string Url { get; set; }
