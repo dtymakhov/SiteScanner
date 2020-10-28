@@ -1,0 +1,24 @@
+<div>
+    @using (Html.BeginForm("Result", "Home", FormMethod.Post))
+    {
+        <div class="form-group">
+            <label for="url">Get site performance</label>
+            <input class="form-control" type="text" name="url" id="url" placeholder="Enter url"/>
+            <small class="form-text text-muted" id="urlHelp">It can take some time.</small>
+            <br/>
+            <input class="btn btn-secondary" type="submit" value="Send"/>
+        </div>
+    }
+
+    <hr/>
+
+    @using (Html.BeginForm("History", "Home", FormMethod.Post))
+    {
+        <div class="form-group">
+            <label for="urlHistory">Get site performance</label>
+            <input class="form-control" type="text" name="url" id="urlHistory" placeholder="Enter url"/>
+            <br/>
+            <input class="btn btn-secondary" type="submit" value="Send"/>
+        </div>
+    }
+</div>

@@ -1,0 +1,30 @@
+@model IEnumerable<IGrouping<string, PageViewModel>>
+
+@if (Model == null)
+{
+    <div class="alert alert-danger" role="alert">This site has never been checked</div>
+}
+else
+{
+    <div>
+        <table class="table table-hover table-dark">
+            <thead>
+            <tr>
+                <th scope="col">Date</th>
+                <th scope="col">Response time</th>
+            </tr>
+            </thead>
+            @foreach (var grouping in Model)
+            {
+                <td colspan="2" class="table-dark">@grouping.Key</td>
+                @foreach (var g in grouping)
+                {
+                    <tr>
+                        <td>@g.Date.</td>
+                        <td>@g.ResponseTime ms</td>
+                    </tr>
+                }
+            }
+        </table>
+    </div>
+}
