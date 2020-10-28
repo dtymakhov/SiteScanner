@@ -7,6 +7,8 @@
 else
 {
     <div id="chart_div"></div>
+    <br/>
+    
     <table class="table table-hover table-dark">
         <thead>
         <tr>
@@ -43,8 +45,34 @@ else
      
            // Set chart options
            var options = {
-               width:1000,
-               height:500};
+               width:1100,
+               height:500,
+               backgroundColor: '#1b2024',
+               colors: ["#0000ff"],
+               
+               hAxis: {
+               textStyle: {
+                   color: '#ffffff',
+                   fontSize: 10
+                  },
+               titleTextStyle: {
+                    color: '#ffffff',
+                    fontSize: 10
+                   }
+               },
+               
+               vAxis: {
+               title: 'Response time (ms)',
+               textStyle: {
+                    color: '#ffffff',
+                    fontSize: 12
+                   },
+               titleTextStyle: {
+                    color: '#ffffff',
+                    fontSize: 10
+                   }
+               },
+           };
      
            // Instantiate and draw our chart, passing in some options.
            var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
