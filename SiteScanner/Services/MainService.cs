@@ -25,7 +25,7 @@ namespace SiteScanner.Services
 
             var result = _siteScannerService.Scan(url);
 
-            return siteByUrl != null ? UpdateSite(result) : AddSite(result);
+            return siteByUrl != null ? UpdateSite(siteByUrl, result) : AddSite(result);
         }
 
         public List<PageViewModel> GetHistory(string url)
@@ -52,25 +52,16 @@ namespace SiteScanner.Services
             var site = new Site {Url = pageViewModel[0].Url};
             var resultPages = new List<ResultPageViewModel>();
 
-            foreach (var r in pageViewModel)
+            foreach (var pvm in pageViewModel)
             {
-                var page = new Page
-                {
-                    Url = r.Url,
-                    MaxResponseTime = r.ResponseTime,
-                    MinResponseTime = r.ResponseTime
-                };
-
                 resultPages.Add(new ResultPageViewModel
                 {
-                    Url = r.Url,
-                    ResponseTime = r.ResponseTime,
-                    MaxResponseTime = r.ResponseTime,
-                    MinResponseTime = r.ResponseTime
+                    Url = pvm.Url,
+                    ResponseTime = pvm.ResponseTime,
+                    MaxResponseTime = pvm.ResponseTime,
+                    MinResponseTime = pvm.ResponseTime
                 });
-
-                page.Histories.Add(new History {Date = r.Date, ResponseTime = r.ResponseTime});
-                site.Pages.Add(page);
+                AddPageFromPageViewModel(site, pvm);
             }
 
             _siteRepository.AddSite(site);
@@ -79,25 +70,24 @@ namespace SiteScanner.Services
             return resultPages;
         }
 
-        private List<ResultPageViewModel> UpdateSite(IEnumerable<PageViewModel> pageViewModel)
+        private List<ResultPageViewModel> UpdateSite(Site site, IEnumerable<PageViewModel> pageViewModel)
         {
             var resultPages = new List<ResultPageViewModel>();
 
-            foreach (var p in pageViewModel)
+            foreach (var pvm in pageViewModel)
             {
-                var page = _pageRepository.GetPage(p.Url);
-                page.Histories.Add(new History {ResponseTime = p.ResponseTime, Date = p.Date});
+                var page = _pageRepository.GetPage(pvm.Url) ?? AddPageFromPageViewModel(site, pvm);
 
-                if (page.MaxResponseTime < p.ResponseTime)
-                    page.MaxResponseTime = p.ResponseTime;
+                if (page.MaxResponseTime < pvm.ResponseTime)
+                    page.MaxResponseTime = pvm.ResponseTime;
 
-                if (page.MinResponseTime > p.ResponseTime)
-                    page.MinResponseTime = p.ResponseTime;
+                if (page.MinResponseTime > pvm.ResponseTime)
+                    page.MinResponseTime = pvm.ResponseTime;
 
                 resultPages.Add(new ResultPageViewModel
                 {
                     Url = page.Url,
-                    ResponseTime = p.ResponseTime,
+                    ResponseTime = pvm.ResponseTime,
                     MaxResponseTime = page.MaxResponseTime,
                     MinResponseTime = page.MinResponseTime,
                 });
@@ -106,6 +96,25 @@ namespace SiteScanner.Services
             }
 
             return resultPages;
+        }
+
+        private Page AddPageFromPageViewModel(Site site, PageViewModel pageViewModel)
+        {
+            var page = new Page
+            {
+                Url = pageViewModel.Url,
+                MaxResponseTime = pageViewModel.ResponseTime,
+                MinResponseTime = pageViewModel.ResponseTime
+            };
+            page.Histories.Add(new History
+            {
+                Date = pageViewModel.Date,
+                ResponseTime = pageViewModel.ResponseTime
+            });
+            
+            site.Pages.Add(page);
+            
+            return page;
         }
     }
 }
