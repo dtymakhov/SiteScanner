@@ -9,8 +9,13 @@ namespace SiteScanner.Services
         {
             if (!host.StartsWith("https://") || !host.StartsWith("https://"))
                 host = "https://" + host;
-
-            return host.StartsWith('/') ? host.Remove(0, 1) : host;
+            
+            if (host.Contains("www."))
+            {
+                host = host.Replace("www.", "");
+            }
+            
+            return host.EndsWith('/') ? host: host + "/";
         }
 
         public static bool IsWebSiteOnline(string url)
