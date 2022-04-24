@@ -1,11 +1,10 @@
 using System;
 
-namespace SiteScanner.ViewModels
+namespace SiteScanner.ViewModels;
+
+public class PageViewModel
 {
-    public class PageViewModel
-    {
-        public string Url { get; set; }
-        public int ResponseTime { get; set; }
-        public DateTime Date { get; set; }
-    }
+    public string Url { get; set; }
+    public int ResponseTime { get; set; }
+    public DateTime Date { get; set; }
 }

@@ -5,47 +5,46 @@ using SiteScanner.DAL.Interfaces;
 using SiteScanner.Services;
 using SiteScanner.ViewModels;
 
-namespace SiteScanner.Controllers
+namespace SiteScanner.Controllers;
+
+public class HomeController : Controller
 {
-    public class HomeController : Controller
+    private readonly MainService _mainService;
+
+    public HomeController(ISiteRepository siteRepository, IPageRepository pageRepository)
     {
-        private readonly MainService _mainService;
+        _mainService = new MainService(siteRepository, pageRepository);
+    }
 
-        public HomeController(ISiteRepository siteRepository, IPageRepository pageRepository)
-        {
-            _mainService = new MainService(siteRepository, pageRepository);
-        }
+    public ActionResult Index()
+    {
+        return View();
+    }
 
-        public ActionResult Index()
-        {
+    [HttpPost]
+    public ActionResult<IEnumerable<PageViewModel>> Result(string url)
+    {
+        var correctedUrl = SiteCheckerService.CorrectHost(url);
+        if (!SiteCheckerService.IsWebSiteOnline(correctedUrl))
             return View();
-        }
-
-        [HttpPost]
-        public ActionResult<IEnumerable<PageViewModel>> Result(string url)
-        {
-            var correctedUrl = SiteCheckerService.CorrectHost(url);
-            if (!SiteCheckerService.IsWebSiteOnline(correctedUrl))
-                return View();
             
 
-            var result = _mainService.GetResult(correctedUrl)
-                .OrderByDescending(r => r.ResponseTime);
+        var result = _mainService.GetResult(correctedUrl)
+            .OrderByDescending(r => r.ResponseTime);
 
-            return View(result);
-        }
+        return View(result);
+    }
 
-        [HttpPost]
-        public ActionResult<IEnumerable<IGrouping<string,PageViewModel>>> History(string url)
-        {
-            var correctedUrl = SiteCheckerService.CorrectHost(url);
+    [HttpPost]
+    public ActionResult<IEnumerable<IGrouping<string,PageViewModel>>> History(string url)
+    {
+        var correctedUrl = SiteCheckerService.CorrectHost(url);
 
-            if (!_mainService.IsSiteAdded(correctedUrl))
-                return View();
+        if (!_mainService.IsSiteAdded(correctedUrl))
+            return View();
             
-            var history = _mainService.GetHistory(correctedUrl).GroupBy(p => p.Url);
-            return View(history);
+        var history = _mainService.GetHistory(correctedUrl).GroupBy(p => p.Url);
+        return View(history);
 
-        }
     }
 }

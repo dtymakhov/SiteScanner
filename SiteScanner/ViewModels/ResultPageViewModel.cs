@@ -1,10 +1,9 @@
-namespace SiteScanner.ViewModels
+namespace SiteScanner.ViewModels;
+
+public class ResultPageViewModel
 {
-    public class ResultPageViewModel
-    {
-        public string Url { get; set; }
-        public int ResponseTime { get; set; }
-        public int MinResponseTime { get; set; }
-        public int MaxResponseTime { get; set; }
-    }
+    public string Url { get; set; }
+    public int ResponseTime { get; set; }
+    public int MinResponseTime { get; set; }
+    public int MaxResponseTime { get; set; }
 }
